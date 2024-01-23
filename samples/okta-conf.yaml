@@ -1,0 +1,47 @@
+webhooks:
+  okta:
+    method: POST
+    path: /event-hook/okta-exporter
+    auth:
+      headers:
+        - name: Authorization
+          valueFromEnv: SHARED_WEB_HOOK_KEY
+    response:
+      code: 204
+    collectors:
+      - id: okta
+        transform: .data.events
+
+collectors:
+  okta:
+    namespace: okta_exporter
+    defaultLabels:
+      - name: event_type
+        value: .eventType
+      - name: outcome
+        value: .outcome.result
+    metrics:
+      - name: events_total
+        help: The total number of events
+        path: .[]
+        labels:
+          - name: severity
+            value: .severity
+
+      - name: import_events_total
+        help: The total number of import events
+        path: .[]
+        filter: '.eventType  == "system.import.start" or .eventType == "system.import.complete"'
+        labels:
+          - name: application
+            value: '.target[] | select(.type | contains("AppInstance")) | .alternateId'
+
+      - name: import_events_timestamp
+        help: Timestamp of the last import event
+        type: gauge
+        path: .[]
+        filter: '.eventType  == "system.import.start" or .eventType == "system.import.complete"'
+        value: '.published | .[0:19] +"Z" | fromdateiso8601'
+        labels:
+          - name: application
+            value: '.target[] | select(.type | contains("AppInstance")) | .alternateId'

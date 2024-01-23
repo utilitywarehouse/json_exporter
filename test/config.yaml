@@ -1,0 +1,86 @@
+webhooks:
+  example:
+    method: POST
+    path: /webhook/example
+    auth:
+      headers:
+        - name: Authorization
+          valueFromEnv: TEST_SHARED_WEB_HOOK_KEY
+    response:
+      code: 200
+      headers:
+        - name: Access-Control-Allow-Origin
+          value: "*"
+      message: "ok"
+    collectors:
+      - id: example
+        transform: "."
+
+  animals:
+    method: POST
+    path: /animals
+    response:
+      code: 204
+    collectors:
+      - id: animals
+
+collectors:
+  example:
+    namespace: example
+    defaultLabels:
+      - name: environment
+        value: '"beta"'
+    metrics:
+      - name: global_value
+        help: Example of a top-level global value scrape in the json
+        type: gauge
+        value: .counter
+        labels:
+          - name: location
+            value: '"planet-"+ .location'
+
+      - name: inactive_value_count
+        help: Example of a timestamped value scrape in the json
+        path: .values[]
+        filter: '.state == "INACTIVE"'
+        value: ".count"
+
+      - name: value_active
+        help: Example of sub-level value scrapes from a json
+        path: .values[]
+        filter: '.state == "ACTIVE"'
+        labels:
+          - name: id
+            value: .id
+
+      - name: value_count
+        help: Example of sub-level value scrapes from a json
+        path: .values[]
+        filter: '.state == "ACTIVE"'
+        value: ".count"
+        labels:
+          - name: id
+            value: .id
+
+      - name: value_boolean
+        help: Example of sub-level value scrapes from a json
+        path: .values[]
+        filter: '.state == "ACTIVE"'
+        value: ".some_boolean"
+        labels:
+          - name: id
+            value: .id
+
+  animals:
+    defaultLabels:
+      - name: name
+        value: .noun
+    metrics:
+      - name: animal_population
+        help: Example of top-level lists in a separate collectors
+        type: gauge
+        path: ".[]"
+        value: .population
+        labels:
+          - name: predator
+            value: .predator
