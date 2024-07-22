@@ -24,6 +24,10 @@ func Test_sanitizeValue(t *testing.T) {
 		{"false-text", args{"false"}, 0, false},
 		{"blah", args{"blah"}, 0, true},
 		{"", args{""}, 0, true},
+		{"neg_int", args{-1}, -1.0, false},
+		{"neg_float", args{-3.44}, -3.44, false},
+		{"neg_int-text", args{"-1"}, -1.0, false},
+		{"neg_float-text", args{"-3.44"}, -3.44, false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

@@ -14,6 +14,13 @@ const (
 	GaugeMetric   MetricType = "gauge"
 )
 
+type MetricOperation string
+
+const (
+	OperationAdd MetricOperation = "add"
+	OperationSet MetricOperation = "set"
+)
+
 type Config struct {
 	Collectors map[string]*Collector `yaml:"collectors"`
 }
@@ -26,13 +33,14 @@ type Collector struct {
 }
 
 type Metric struct {
-	Name   string     `yaml:"name"`
-	Help   string     `yaml:"help"`
-	Path   string     `yaml:"path"`
-	Filter string     `yaml:"filter"`
-	Value  string     `yaml:"value"`
-	Labels []Label    `yaml:"labels"`
-	Type   MetricType `yaml:"type"`
+	Name      string          `yaml:"name"`
+	Help      string          `yaml:"help"`
+	Path      string          `yaml:"path"`
+	Filter    string          `yaml:"filter"`
+	Operation MetricOperation `yaml:"operation"`
+	Value     string          `yaml:"value"`
+	Labels    []Label         `yaml:"labels"`
+	Type      MetricType      `yaml:"type"`
 }
 
 type Label struct {

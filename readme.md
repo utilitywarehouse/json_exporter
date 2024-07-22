@@ -100,6 +100,12 @@ collectors:
         # value (jq expression): should result in the value of the metric
         # default is 1
         value: .counter
+        # 'operation' is only used for gauge metrics
+        # value should be either 'set' or 'add', default is 'set'
+        # 'set' sets the Gauge to an given value.
+        # 'add' adds the given value to the Gauge. (The value can be negative,
+        # resulting in a decrease of the Gauge.)
+        operation: set
         # labels specific to this metric
         labels:
           - name: location

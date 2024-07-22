@@ -45,6 +45,13 @@ collectors:
         filter: '.state == "INACTIVE"'
         value: ".count"
 
+      - name: active_count
+        help: Example of a gauge metrics with add operation
+        type: gauge
+        path: .values[]
+        filter: '.state == "ACTIVE"'
+        operation: add
+
       - name: value_active
         help: Example of sub-level value scrapes from a json
         path: .values[]
