@@ -19,12 +19,14 @@ type JSONCollector struct {
 }
 
 type jsonMetric struct {
-	name       string
-	path       *gojq.Code
-	filter     *gojq.Code
-	value      *gojq.Code
-	labels     []jsonLabel
+	name   string
+	path   *gojq.Code
+	filter *gojq.Code
+	value  *gojq.Code
+	labels []jsonLabel
+
 	metricType MetricType
+	operation  MetricOperation
 
 	pCounterVec *prometheus.CounterVec
 	pGaugeVec   *prometheus.GaugeVec
@@ -96,7 +98,7 @@ func newJsonMetric(metric *Metric, reg *prometheus.Registry, ns string, defaultL
 
 	*metric = setDefaults(*metric)
 
-	jm := &jsonMetric{name: metric.Name, metricType: metric.Type}
+	jm := &jsonMetric{name: metric.Name, metricType: metric.Type, operation: metric.Operation}
 
 	jm.path, err = parseAndCompileJQExp(metric.Path)
 	if err != nil {
@@ -272,7 +274,12 @@ func (jm *jsonMetric) updateValue(labels prometheus.Labels, v float64) {
 		jm.pCounterVec.With(labels).Add(v)
 
 	case GaugeMetric:
-		jm.pGaugeVec.With(labels).Set(v)
+		switch jm.operation {
+		case OperationAdd:
+			jm.pGaugeVec.With(labels).Add(v)
+		default:
+			jm.pGaugeVec.With(labels).Set(v)
+		}
 	}
 }
 

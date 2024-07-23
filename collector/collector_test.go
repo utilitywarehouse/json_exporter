@@ -192,6 +192,12 @@ func TestJSONCollector_process(t *testing.T) {
 							Value:  ".count",
 							Labels: []Label{{"id", ".id"}},
 						},
+						{ // gauge with add operations will add all values
+							Name: "value_gauge_with_add", Type: "gauge",
+							Path: ".values[]", Filter: `.state == "ACTIVE"`,
+							Value: ".count", Operation: OperationAdd,
+							Labels: []Label{{"id", ".id"}},
+						},
 					},
 				},
 				mustParseJson(`
@@ -217,6 +223,11 @@ func TestJSONCollector_process(t *testing.T) {
 					"test_value_gauge", dto.MetricType_GAUGE,
 					testMetricsData{[]string{"id=id-A"}, 2},
 					testMetricsData{[]string{"id=id-C"}, 4},
+				),
+				testMetricFamily(
+					"test_value_gauge_with_add", dto.MetricType_GAUGE,
+					testMetricsData{[]string{"id=id-A"}, 2},
+					testMetricsData{[]string{"id=id-C"}, 7},
 				),
 			},
 			want: true,
@@ -417,6 +428,10 @@ func TestJSONCollector_process_multiplePayload(t *testing.T) {
 			},
 			expected: []*dto.MetricFamily{
 				testMetricFamily(
+					"example_active_count", dto.MetricType_GAUGE,
+					testMetricsData{[]string{"environment=beta"}, 2},
+				),
+				testMetricFamily(
 					"example_global_value", dto.MetricType_GAUGE,
 					testMetricsData{[]string{"environment=beta", "location=planet-mars"}, 1234},
 				),
@@ -461,6 +476,10 @@ func TestJSONCollector_process_multiplePayload(t *testing.T) {
 			},
 			expected: []*dto.MetricFamily{
 				testMetricFamily(
+					"example_active_count", dto.MetricType_GAUGE,
+					testMetricsData{[]string{"environment=beta"}, 4},
+				),
+				testMetricFamily(
 					"example_global_value", dto.MetricType_GAUGE,
 					testMetricsData{[]string{"environment=beta", "location=planet-mars"}, 1234},
 				),
@@ -504,6 +523,10 @@ func TestJSONCollector_process_multiplePayload(t *testing.T) {
 					testMetricsData{[]string{"name=deer", "predator=false"}, 456},
 					testMetricsData{[]string{"name=lion", "predator=true"}, 123},
 					testMetricsData{[]string{"name=pigeon", "predator=false"}, 789},
+				),
+				testMetricFamily(
+					"example_active_count", dto.MetricType_GAUGE,
+					testMetricsData{[]string{"environment=beta"}, 4},
 				),
 				testMetricFamily(
 					"example_global_value", dto.MetricType_GAUGE,
