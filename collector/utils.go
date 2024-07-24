@@ -17,6 +17,9 @@ func getLabelNames(labels []jsonLabel) []string {
 }
 
 func parseAndCompileJQExp(exp string) (*gojq.Code, error) {
+	if exp == "" {
+		exp = "."
+	}
 	query, err := gojq.Parse(exp)
 	if err != nil {
 		return nil, fmt.Errorf("jq query parse error %w", err)
