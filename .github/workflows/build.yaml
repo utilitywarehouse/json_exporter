@@ -16,8 +16,8 @@ env:
 
 jobs:
   docker:
+    name: Build
     runs-on: ubuntu-latest
-    if: github.actor != 'dependabot[bot]'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,9 +37,16 @@ jobs:
           username: utilitywarehouse+drone_ci
           password: ${{ secrets.SYSTEM_QUAY_TOKEN }}
       - name: Build and push Docker image
+        if: github.actor != 'dependabot[bot]'
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      - name: Only Build Docker image
+        if: github.actor == 'dependabot[bot]'
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
