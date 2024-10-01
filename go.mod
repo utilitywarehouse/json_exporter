@@ -5,7 +5,7 @@ go 1.22.0
 require (
 	github.com/google/go-cmp v0.6.0
 	github.com/itchyny/gojq v0.12.16
-	github.com/prometheus/client_golang v1.20.2
+	github.com/prometheus/client_golang v1.20.4
 	github.com/prometheus/client_model v0.6.1
 	github.com/prometheus/common v0.57.0
 	google.golang.org/protobuf v1.34.2
