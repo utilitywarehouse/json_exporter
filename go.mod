@@ -7,7 +7,7 @@ require (
 	github.com/itchyny/gojq v0.12.16
 	github.com/prometheus/client_golang v1.20.4
 	github.com/prometheus/client_model v0.6.1
-	github.com/prometheus/common v0.60.0
+	github.com/prometheus/common v0.60.1
 	google.golang.org/protobuf v1.35.1
 	gopkg.in/yaml.v2 v2.4.0
 )
