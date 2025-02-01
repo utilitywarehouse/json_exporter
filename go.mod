@@ -8,7 +8,7 @@ require (
 	github.com/prometheus/client_golang v1.20.5
 	github.com/prometheus/client_model v0.6.1
 	github.com/prometheus/common v0.62.0
-	google.golang.org/protobuf v1.36.1
+	google.golang.org/protobuf v1.36.4
 	gopkg.in/yaml.v2 v2.4.0
 )
 
