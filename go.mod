@@ -9,7 +9,7 @@ require (
 	github.com/prometheus/client_model v0.6.1
 	github.com/prometheus/common v0.62.0
 	google.golang.org/protobuf v1.36.5
-	gopkg.in/yaml.v2 v2.4.0
+
 )
 
 require (
