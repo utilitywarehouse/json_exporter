@@ -1,4 +1,4 @@
-FROM golang:1.22.0-alpine as builder
+FROM golang:1.22.0-alpine AS builder
 
 WORKDIR /workspace
 # Copy the Go Modules manifests
