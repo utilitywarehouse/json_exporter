@@ -3,7 +3,7 @@ module github.com/utilitywarehouse/json_exporter
 go 1.23.4
 
 require (
-	github.com/google/go-cmp v0.6.0
+	github.com/google/go-cmp v0.7.0
 	github.com/itchyny/gojq v0.12.17
 	github.com/prometheus/client_golang v1.20.5
 	github.com/prometheus/client_model v0.6.1
