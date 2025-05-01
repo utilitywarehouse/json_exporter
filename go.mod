@@ -1,11 +1,12 @@
 module github.com/utilitywarehouse/json_exporter
 
 go 1.23.4
+
 require (
 	github.com/google/go-cmp v0.7.0
 	github.com/itchyny/gojq v0.12.17
 	github.com/prometheus/client_golang v1.21.1
-	github.com/prometheus/client_model v0.6.1
+	github.com/prometheus/client_model v0.6.2
 	github.com/prometheus/common v0.63.0
 	google.golang.org/protobuf v1.36.6
 	gopkg.in/yaml.v2 v2.4.0
