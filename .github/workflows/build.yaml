@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.actor != 'dependabot[bot]'
     steps:
+      - name: test
+        run: echo "hello world"
       - name: Checkout
         uses: actions/checkout@v5
       - name: Set up QEMU
