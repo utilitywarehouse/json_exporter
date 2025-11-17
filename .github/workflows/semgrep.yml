@@ -14,6 +14,9 @@ on:
     - cron: '50 14 * * *'
     # It is recommended to change the schedule to a random time.
 
+permissions:
+  contents: read
+
 jobs:
   semgrep:
     # User definable name of this GitHub Actions job.
@@ -30,6 +33,11 @@ jobs:
 
     steps:
       # Fetch project source with GitHub Actions Checkout.
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@v2
+        with:
+          egress-policy: audit
+
       - uses: actions/checkout@v5
       # Run the "semgrep ci" command on the command line of the docker image.
       - run: semgrep --config "p/owasp-top-ten" --config "p/ci" --config "p/golang" --config "p/cwe-top-25" --config "p/r2c-security-audit"
