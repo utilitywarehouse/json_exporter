@@ -34,10 +34,10 @@ jobs:
     steps:
       # Fetch project source with GitHub Actions Checkout.
       - name: Harden the runner (Audit all outbound calls)
-        uses: step-security/harden-runner@v2
+        uses: step-security/harden-runner@95d9a5deda9de15063e7595e9719c11c38c90ae2 # v2.13.2
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
       # Run the "semgrep ci" command on the command line of the docker image.
       - run: semgrep --config "p/owasp-top-ten" --config "p/ci" --config "p/golang" --config "p/cwe-top-25" --config "p/r2c-security-audit"
