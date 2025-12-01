@@ -38,6 +38,6 @@ jobs:
         with:
           egress-policy: audit
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       # Run the "semgrep ci" command on the command line of the docker image.
       - run: semgrep --config "p/owasp-top-ten" --config "p/ci" --config "p/golang" --config "p/cwe-top-25" --config "p/r2c-security-audit"
