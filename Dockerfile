@@ -1,4 +1,4 @@
-FROM golang:1.23.4-alpine AS builder
+FROM golang:1.25-alpine AS builder
 
 WORKDIR /workspace
 # Copy the Go Modules manifests
@@ -15,7 +15,7 @@ COPY . .
 RUN go test -v -cover ./... \
     && CGO_ENABLED=0 go build -a -o json_exporter
 
-FROM alpine:3.18
+FROM alpine:3.23
 
 ENV USER_ID=65532
 
