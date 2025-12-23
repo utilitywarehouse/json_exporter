@@ -70,7 +70,7 @@ func sanitizeValue(v any) (float64, error) {
 		if v == "<nil>" {
 			return math.NaN(), nil
 		}
-		return 0.0, fmt.Errorf(resultErr)
+		return 0.0, fmt.Errorf("%s", resultErr)
 
 	case nil:
 		return math.NaN(), nil
