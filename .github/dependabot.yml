@@ -12,4 +12,8 @@ updates:
   - package-ecosystem: "gomod"
     directory: "/"
     schedule:
-      interval: "monthly"
+      interval: "quarterly"
+    groups:
+      go-dependencies:
+        patterns:
+          - "*"
